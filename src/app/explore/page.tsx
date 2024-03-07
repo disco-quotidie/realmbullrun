@@ -41,12 +41,6 @@ export default function Explore() {
           disabled={pageState === 'loading'}
           value={searchStr}
           onChange={e => setSearchStr(e.target.value)}
-          // onKeyUp={async (e) => {
-          //   if (e.key === 'Enter') {
-          //     const subrealms = await getSubrealmsFromTLR(tlr, network)
-          //     setItems(subrealms)
-          //   }
-          // }}
         />
         {
           items.length === 0 ? (
@@ -56,7 +50,7 @@ export default function Explore() {
       </div>
       <div className="mx-16 mt-4 grid lg:grid-cols-6 md:grid-cols-4 gap-4">
         {
-          items && items.map((elem: any) => (
+          items && items.filter((elem: any) => (elem.atomical_id.startsWith("fake-skeleton") || elem.subrealm.indexOf(searchStr) > -1)).map((elem: any) => (
             <RealmCard key={elem.atomical_id} imageData={elem.image} subrealmName={elem.subrealm} atomicalId={elem.atomical_id} />
           ))
         }
