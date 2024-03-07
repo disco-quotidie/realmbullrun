@@ -2,10 +2,10 @@
 import { useContext, useEffect, useState } from "react";
 
 import { AppContext } from "@/providers/AppContextProvider";
-import getSubrealmsFromTLR from "@/lib/get-subrealms-from-tlr";
 
 import { Input } from "@/components/ui/input";
 import { RealmCard } from "@/components/profile/RealmCard";
+import getSubrealmsFromBackend from "@/lib/get-subrealms-from-backend";
 
 export default function Explore() {
 
@@ -18,14 +18,15 @@ export default function Explore() {
 
   const { network, tlr } = useContext(AppContext)
   const [searchStr, setSearchStr] = useState('')
-  const [items, setItems] = useState(fakeSkeletons)
+  const [items, setItems] = useState<any>(fakeSkeletons)
   const [pageState, setPageState] = useState('loading')
 
   useEffect(() => {
     const firstFetch = async () => {
       setPageState('loading')
-      const subrealms = await getSubrealmsFromTLR(tlr, network)
+      const subrealms = await getSubrealmsFromBackend(network)
       setItems(subrealms)
+      console.log(subrealms)
       setPageState('ready')
     }
     firstFetch()
@@ -55,8 +56,8 @@ export default function Explore() {
       </div>
       <div className="mx-16 mt-4 grid lg:grid-cols-6 md:grid-cols-4 gap-4">
         {
-          items.map((elem: any) => (
-            <RealmCard filter={searchStr} key={elem.atomical_id} subrealmName={elem.subrealm} atomicalId={elem.atomical_id} />
+          items && items.map((elem: any) => (
+            <RealmCard key={elem.atomical_id} imageData={elem.image} subrealmName={elem.subrealm} atomicalId={elem.atomical_id} />
           ))
         }
       </div>

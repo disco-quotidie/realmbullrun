@@ -1,44 +1,17 @@
-import Image from "next/image";
-import { useEffect, useState } from "react";
+import Image from "next/image"
 
-export default function ImageFromData({data, key}: {data: any, key?: any}) {
+export const ImageFromData = ({ imageData, key, additionalClass = "" }: { imageData: string, key?: string, additionalClass?: string }) => {
 
-  const [imageData, setImageData] = useState<any>()
-  const [isSvg, setIsSvg] = useState(false)
+  const toImageSrc = (value: string) => {      
+    if (!value || typeof value !== "string")
+      return "/placeholder.jpg"
+    let base64ImageData = Buffer.from(value, 'hex').toString('base64')
+    return `data:image/png;base64,${base64ImageData}`
+  }
 
-  useEffect(() => {
-    if (data.type === "NFT") {
-      if (!data.subtype) {
-        const { fields } = data.mint_data
-        console.log(fields)
-        Object.keys(fields).map((objKey: string) => {
-          if (objKey !== "args" && fields[objKey]["$b"]) {
-            setIsSvg(objKey.endsWith(".svg"))
-            if (typeof fields[objKey]["$b"] === "object") {
-              const { $d } = fields[objKey]["$b"]
-              setImageData(Buffer.from($d, 'hex').toString('base64'))
-            }
-            else if (typeof fields[objKey]["$b"] === "string")
-              setImageData(Buffer.from(fields[objKey]["$b"], 'hex').toString('base64'))
-          }
-        })
-      }
-      else if (data.subtype === "dmitem") {
-        const { fields } = data.mint_data
-        Object.keys(fields).map((objKey: string) => {
-          if (objKey !== "args") {
-            setIsSvg(objKey.endsWith(".svg"))
-            const { $d } = fields[objKey]
-            setImageData(Buffer.from($d, 'hex').toString('base64'))
-          }
-        })
-      }
-    }
-  }, [data])
-  
-  return isSvg ? (
-    <Image width={144} height={144} src={`data:image/svg+xml;base64,${imageData}`} alt="" />
-  ) : (
-    <Image width={144} height={144} src={`data:image/png;base64,${imageData}`} alt="" />
+  return (
+    <div>
+      <Image className={`${additionalClass} rounded-lg`} width={144} height={144} src={toImageSrc(imageData)} alt="No Image Found" />
+    </div>
   )
 }
