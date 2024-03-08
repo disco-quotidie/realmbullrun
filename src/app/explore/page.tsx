@@ -25,8 +25,6 @@ export default function Explore() {
     const firstFetch = async () => {
       setPageState('loading')
       const subrealms = await getSubrealmsFromBackend(network)
-      setItems(subrealms)
-      console.log(subrealms)
       setPageState('ready')
     }
     firstFetch()
@@ -51,7 +49,7 @@ export default function Explore() {
       <div className="mx-16 mt-4 grid lg:grid-cols-6 md:grid-cols-4 gap-4">
         {
           items && items.filter((elem: any) => (elem.atomical_id.startsWith("fake-skeleton") || elem.subrealm.indexOf(searchStr) > -1)).map((elem: any) => (
-            <RealmCard key={elem.atomical_id} imageData={elem.image} subrealmName={elem.subrealm} atomicalId={elem.atomical_id} />
+            <RealmCard key={elem.atomical_id} links={elem.links} imageData={elem.image} subrealmName={elem.subrealm} atomicalId={elem.atomical_id} />
           ))
         }
       </div>
