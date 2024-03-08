@@ -25,6 +25,7 @@ export default function Explore() {
     const firstFetch = async () => {
       setPageState('loading')
       const subrealms = await getSubrealmsFromBackend(network)
+      setItems(subrealms)
       setPageState('ready')
     }
     firstFetch()

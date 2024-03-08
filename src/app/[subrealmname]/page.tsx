@@ -12,6 +12,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import axios from "axios";
+import getProfileDataFromBackend from "@/lib/get-profile-data-from-backend";
 
 const NOT_FOUND = "not-found"
 const LOADING = "loading"
@@ -31,111 +32,16 @@ const Profile = ({ params }: { params: { subrealmname: string } }) => {
   const { network, tlr, showError, showAlert } = useContext(AppContext)
   const APIEndpoint = network === 'testnet' ? process.env.NEXT_PUBLIC_CURRENT_PROXY_TESTNET : process.env.NEXT_PUBLIC_CURRENT_PROXY
 
-  const getAtomicalIdFromRealmname = async (str: string) => {
-    const url = `${APIEndpoint}/blockchain.atomicals.get_realm_info?params=[\"${str}\"]`
-    const response = await axios.get(url)
-    if (response.data && response.data.success) {
-      const { atomical_id } = response.data.response.result
-      return atomical_id
-    }
-    return ""
-  }
-
-  const getDelegateIdFromAtomicalId = async (atomical_id: string) => {
-    if (!atomical_id || atomical_id === "undefined")
-      return {
-        verified: false,
-        delegateId: ""
-      }
-    const url = `${APIEndpoint}/blockchain.atomicals.get_state?params=[\"${atomical_id}\"]`
-    const response = await axios.get(url)
-    if (response.data && response.data.success) {
-      const { $request_subrealm_status, state, type, atomical_number, atomical_ref, confirmed } = response.data.response.result
-      const verified = $request_subrealm_status.status
-      const delegateId = state.latest.d
-      return {
-        verified,
-        delegateId
-      }
-    }
-    return {
-      verified: false,
-      delegateId: ""
-    }
-  }
-
-  const getProfileDataFromDelegateId = async (delegateId: string) => {
-    const url = `${APIEndpoint}/blockchain.atomicals.get?params=[\"${delegateId}\"]`
-    const response = await axios.get(url)
-    if (response.data && response.data.success) {
-      const { mint_data } = response.data.response.result
-      console.log(mint_data)
-      const { name, desc, image, links, wallets, collections } = mint_data.fields
-
-      if (name)
-        setProfileName(name)
-      if (desc)
-        setDescription(desc)
-      if (image) {
-        if (image.startsWith("atom:btc")) {
-          const splits = image.split(":")
-          setImageSrc(splits[splits.length - 1])
-        }
-      }
-      if (links) 
-        setLinksObject(links)
-      if (wallets)
-        setWalletsObject(wallets)
-      if (collections)
-        setCollectionsObject(collections)
-    }
-  }
-
-  const getStateHistoryFromAtomicalId = async (atomicalId: string) => {
-    const url = `${APIEndpoint}/blockchain.atomicals.get_state_history?params=[\"${atomicalId}\"]`
-    const response = await axios.get(url)
-    if (response.data && response.data.success) {
-      const { history } = response.data.response.result.state
-      let arr: any[] = []
-      history.map((elem: any) => {
-        arr.push({
-          tx_num: elem.tx_num,
-          height: elem.height,
-          delegate: elem.data.d
-        })
-      })
-      arr.sort((elem1: any, elem2: any) => elem1.height - elem2.height)
-      return arr
-    }
-    return []
-  }
-
-  const getRecursiveProfileData = async (delegateArray: any[]) => {
-    let profileData: any = {}
-    for (let i = 0; i < delegateArray.length; i++) {
-      let { delegate }: { delegate: string} = delegateArray[i]
-      if (!delegate || delegate === "" || delegate === "undefined")
-        continue;
-      if ( delegate.startsWith("atom:btc") ) {
-        const splits = delegate.split(":")
-        delegate = splits[splits.length - 1]
-      }
-      await getProfileDataFromDelegateId(delegate)
-    }
-    setStatus(FOUND)
-  }
+  
 
   useEffect(() => {
     const fetchData = async () => {
       // const atomicalId = await getAtomicalIdFromRealmname(`${tlr}.${subrealmname}`)
-      const atomicalId = await getAtomicalIdFromRealmname(`${subrealmname}`)
-      if (atomicalId === "") {
+      const profileData = await getProfileDataFromBackend(`${subrealmname}`, network)
+      if (!profileData) {
         setStatus(NOT_FOUND)
       }
       else {
-        const historyArray = await getStateHistoryFromAtomicalId(atomicalId)
-        console.log(historyArray)
-        await getRecursiveProfileData(historyArray)
       }
     }
     fetchData()
