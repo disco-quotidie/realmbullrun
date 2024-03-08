@@ -17,6 +17,10 @@ import { BsWallet } from 'react-icons/bs'
 import { Switch } from "./ui/switch";
 import { createMnemonicPhrase } from "@/app/atomical-lib/utils/create-mnemonic-phrase";
 import { switchLibraryNetwork } from "@/app/atomical-lib/commands/command-helpers";
+import Image from "next/image";
+import WizzSvg from "./icons/WizzSvg";
+import OKXSvg from "./icons/OKXSvg";
+import UnisatSvg from "./icons/UnisatSvg";
 
 declare global {
   interface Window {
@@ -255,23 +259,34 @@ export const WalletConnect = () => {
             <>
               <MenubarItem>
                 {typeof window !== 'undefined' && window.wizz ? (
-                  <Button color="primary" onClick={connectWizz}>
-                    Connect Wizz Wallet
+                  <Button className="flex justify-between w-[120px]" color="primary" onClick={connectWizz}>
+                    <WizzSvg /> Wizz
                   </Button>
                 ) : (
                   <Link target="_blank" href="https://wizzwallet.io/">
-                    Please first install Wizz Wallet
+                    Install Wizz Wallet
                   </Link>
                 )}
               </MenubarItem>
               <MenubarItem>
                 {typeof window !== 'undefined' && window.unisat ? (
-                  <Button color="primary" onClick={connectUnisat}>
-                    Connect Unisat Wallet
+                  <Button className="flex justify-between w-[120px]" color="primary" onClick={connectUnisat}>
+                    <OKXSvg /> OKX
+                  </Button>
+                ) : (
+                  <Link target="_blank" href="https://www.okx.com/web3">
+                    Install OKX Wallet
+                  </Link>
+                )}
+              </MenubarItem>
+              <MenubarItem>
+                {typeof window !== 'undefined' && window.unisat ? (
+                  <Button className="flex justify-between w-[120px]" color="primary" onClick={connectUnisat}>
+                    <UnisatSvg /> Unisat
                   </Button>
                 ) : (
                   <Link target="_blank" href="https://unisat.io/download">
-                    Please first install Unisat Wallet
+                    Install Unisat Wallet
                   </Link>
                 )}
               </MenubarItem>

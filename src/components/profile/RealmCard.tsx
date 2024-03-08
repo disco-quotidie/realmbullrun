@@ -24,7 +24,6 @@ export const RealmCard = ({ atomicalId, links, subrealmName, imageData }: { atom
           </CardTitle>
           {/* <CardDescription>#{atomicalNumber}</CardDescription> */}
         </div>
-
       </CardHeader>
       <CardContent>
 
