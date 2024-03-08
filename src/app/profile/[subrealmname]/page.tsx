@@ -89,11 +89,8 @@ const Profile = ({ params }: { params: { subrealmname: string } }) => {
           <div>{description}</div>
         )
       }
-      <Separator />
       <Links linksObject={linksObject} />
-      <Separator />
       <Donates donates={walletsObject} />
-      <Separator />
       <Collections collectionsObject={collectionsObject} />
     </div>
   )

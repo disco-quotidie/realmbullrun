@@ -13,6 +13,7 @@ import { Button } from "./ui/button";
 import Link from "next/link";
 import { BitcoinIcon } from "./icons/BitcoinIcon";
 import { RepairIcon } from "./icons/RepairIcon";
+import { BsWallet } from 'react-icons/bs'
 import { Switch } from "./ui/switch";
 import { createMnemonicPhrase } from "@/app/atomical-lib/utils/create-mnemonic-phrase";
 import { switchLibraryNetwork } from "@/app/atomical-lib/commands/command-helpers";
@@ -225,7 +226,14 @@ export const WalletConnect = () => {
               {walletData.pendingTxCount}:{walletData.primary_addr.slice(0, 4)}...{walletData.primary_addr.slice(-4)}
             </>
           ) : (
-            <>Connect Wallet</>
+            <>
+              <div className="sm:hidden">
+                <BsWallet />
+              </div>
+              <div className="hidden sm:flex">
+                Connect
+              </div>
+            </>
           )}
         </MenubarTrigger>
         <MenubarContent className="flex items-center flex-col gap-1">

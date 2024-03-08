@@ -11,6 +11,8 @@ import {
 import { useRouter } from "next/navigation"
 import { WalletConnect } from "../WalletConnect"
 import { ModeToggle } from "../ui/ModeToggle"
+import { BsList } from 'react-icons/bs'
+import Link from "next/link"
 
 export const Header = () => {
 
@@ -32,22 +34,35 @@ export const Header = () => {
       <Menubar className="flex justify-between p-8 rounded-none border-x-0">
         <Logo />
 
-        <MenubarMenu >
-          <MenubarTrigger>Menu</MenubarTrigger>
-          <MenubarContent className="flex flex-col gap-2">
-            {
-              menuItems.map((item: any) => (
-                <MenubarItem key={item.href} onClick={() => router.push(item.href)}>
-                  {item.text}
-                </MenubarItem>
-              ))
-            }
-          </MenubarContent>
-        </MenubarMenu>
+        <div className="sm:hidden">
+          <MenubarMenu >
+            <MenubarTrigger><BsList size="24" /></MenubarTrigger>
+            <MenubarContent className="flex flex-col gap-2">
+              {
+                menuItems.map((item: any) => (
+                  <MenubarItem key={item.href} onClick={() => router.push(item.href)}>
+                    {item.text}
+                  </MenubarItem>
+                ))
+              }
+            </MenubarContent>
+          </MenubarMenu>
+        </div>
+        <div className="hidden sm:flex sm:flex-row sm:space-x-12 md:pl-36">
+          {
+            menuItems.map((item: any) => (
+              <Link href={item.href}>
+                {item.text}
+              </Link>
+            ))
+          }
+        </div>
 
-        <ModeToggle />
+        <div className="flex flex-row space-x-2">
+          <ModeToggle />
+          <WalletConnect />
+        </div>
 
-        <WalletConnect />
 
       </Menubar>
 

@@ -15,7 +15,7 @@ export const RealmCard = ({ atomicalId, links, subrealmName, imageData }: { atom
   return atomicalId?.startsWith('fake-skeleton') ? (
     <Skeleton className="h-[277px] w-full rounded-xl" />
   ) : (
-    <Card className={`flex flex-col items-center w-44`}>
+    <Card className={`flex flex-col items-center w-44 mx-auto`}>
       <CardHeader className="pb-0" >
         <ImageFromData imageData={imageData} />
         <div className="flex flex-col items-center justify-around space-y-2">

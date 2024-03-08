@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+import "./globals.css";
+import localFont from 'next/font/local'
+const myFont = localFont({ src: '../../asset/fonts/VonwaonBitmap-16px.ttf', weight: '800' })
+
 import { Providers } from "../components/layouts/Providers";
 
 export const metadata: Metadata = {
@@ -17,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${myFont.className} text-lg`}>
         <Providers>
           {children}
         </Providers>
