@@ -4,7 +4,7 @@ export const ImageFromData = ({ imageData, key, additionalClass = "" }: { imageD
 
   const toImageSrc = (value: string) => {      
     if (!value || typeof value !== "string")
-      return "/placeholder.jpg"
+      return "/placeholder-pink.png"
     let base64ImageData = Buffer.from(value, 'hex').toString('base64')
     return `data:image/png;base64,${base64ImageData}`
   }

@@ -48,7 +48,7 @@ export const Header = () => {
             </MenubarContent>
           </MenubarMenu>
         </div>
-        <div className="hidden sm:flex sm:flex-row sm:space-x-12 md:pl-36">
+        <div className="hidden sm:flex sm:flex-row sm:space-x-12 md:pl-20">
           {
             menuItems.map((item: any) => (
               <Link href={item.href}>

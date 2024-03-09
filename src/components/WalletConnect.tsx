@@ -10,6 +10,7 @@ import {
   MenubarTrigger,
 } from "@/components/ui/menubar";
 import { Button } from "./ui/button";
+import { Badge } from "@/components/ui/badge"
 import Link from "next/link";
 import { BitcoinIcon } from "./icons/BitcoinIcon";
 import { RepairIcon } from "./icons/RepairIcon";
@@ -26,6 +27,7 @@ declare global {
   interface Window {
     wizz: any;
     unisat: any;
+    okxwallet: any;
   }
 }
 
@@ -43,14 +45,20 @@ export const WalletConnect = () => {
           connected: true,
           primary_addr: result[0],
         });
-        if (localStorage.getItem('clientSeed')) {
-          setMnemonic(localStorage.getItem('clientSeed'))
-        }
-        else {
-          const clientSeed = createMnemonicPhrase().phrase
-          setMnemonic(clientSeed)
-          localStorage.setItem('clientSeed', clientSeed)
-        }
+      }
+    }
+  };
+
+  const connectOKX = async () => {
+    if (hasOKXExtension()) {
+      const result = await window.okxwallet.bitcoin.connect()
+      if (result && result.address) {
+        setWalletData({
+          ...walletData,
+          type: "okx",
+          connected: true,
+          primary_addr: result.address,
+        });
       }
     }
   };
@@ -65,14 +73,6 @@ export const WalletConnect = () => {
           connected: true,
           primary_addr: result[0],
         });
-        if (localStorage.getItem('clientSeed')) {
-          setMnemonic(localStorage.getItem('clientSeed'))
-        }
-        else {
-          const clientSeed = createMnemonicPhrase().phrase
-          setMnemonic(clientSeed)
-          localStorage.setItem('clientSeed', clientSeed)
-        }
       }
     }
   };
@@ -81,6 +81,13 @@ export const WalletConnect = () => {
     if (hasWizzExtension()) {
       const result: string[] = await window.wizz.getAccounts()
       return result.length > 0
+    }
+  }
+
+  const isOKXConnected = async () => {
+    if (hasOKXExtension()) {
+      const result = await window.okxwallet.bitcoin.connect()
+      return (result && result.address) 
     }
   }
 
@@ -123,6 +130,10 @@ export const WalletConnect = () => {
     return typeof window !== "undefined" && typeof window.wizz !== "undefined";
   };
 
+  const hasOKXExtension = () => {
+    return typeof window !== "undefined" && typeof window.okxwallet !== "undefined";
+  };
+
   const hasUnisatExtension = () => {
     return typeof window !== "undefined" && typeof window.unisat !== "undefined";
   };
@@ -153,6 +164,16 @@ export const WalletConnect = () => {
 
   useEffect(() => {
     const checkRealWalletConnectivity = async () => {
+      
+      if (localStorage.getItem('clientSeed')) {
+        setMnemonic(localStorage.getItem('clientSeed'))
+      }
+      else {
+        const clientSeed = createMnemonicPhrase().phrase
+        setMnemonic(clientSeed)
+        localStorage.setItem('clientSeed', clientSeed)
+      }
+
       if (typeof window !== 'undefined' && await hasWizzExtension() && await isWizzConnected()) {       
         window.wizz.on('networkChanged', (network_str: string) => {
           if (network_str === 'livenet')
@@ -174,15 +195,6 @@ export const WalletConnect = () => {
             connected: true,
             primary_addr: accounts[0],
           });
-
-          if (localStorage.getItem('clientSeed')) {
-            setMnemonic(localStorage.getItem('clientSeed'))
-          }
-          else {
-            const clientSeed = createMnemonicPhrase().phrase
-            setMnemonic(clientSeed)
-            localStorage.setItem('clientSeed', clientSeed)
-          }
         }
       }
       else if (typeof window !== 'undefined' && await hasUnisatExtension() && await isUnisatConnected()) {
@@ -206,15 +218,6 @@ export const WalletConnect = () => {
             connected: true,
             primary_addr: accounts[0],
           });
-
-          if (localStorage.getItem('clientSeed')) {
-            setMnemonic(localStorage.getItem('clientSeed'))
-          }
-          else {
-            const clientSeed = createMnemonicPhrase().phrase
-            setMnemonic(clientSeed)
-            localStorage.setItem('clientSeed', clientSeed)
-          }
         }
       }
     }
@@ -227,7 +230,10 @@ export const WalletConnect = () => {
         <MenubarTrigger>
           {walletData.connected ? (
             <>
-              {walletData.pendingTxCount}:{walletData.primary_addr.slice(0, 4)}...{walletData.primary_addr.slice(-4)}
+              {
+                walletData.pendingTxCount > 0 ? (<Badge className="absolute right-2 top-1">{walletData.pendingTxCount} tx in progress</Badge>) : (<></>)
+              }              
+              {walletData.primary_addr.slice(0, 4)}...{walletData.primary_addr.slice(-4)}
             </>
           ) : (
             <>
@@ -270,7 +276,7 @@ export const WalletConnect = () => {
               </MenubarItem>
               <MenubarItem>
                 {typeof window !== 'undefined' && window.unisat ? (
-                  <Button className="flex justify-between w-[120px]" color="primary" onClick={connectUnisat}>
+                  <Button className="flex justify-between w-[120px]" color="primary" onClick={connectOKX}>
                     <OKXSvg /> OKX
                   </Button>
                 ) : (
