@@ -6,6 +6,7 @@ import { AppContext } from "@/providers/AppContextProvider";
 import { Input } from "@/components/ui/input";
 import { RealmCard } from "@/components/profile/RealmCard";
 import getSubrealmsFromBackend from "@/lib/get-subrealms-from-backend";
+import VIPCaurosel from "@/components/common/VIPCarousel";
 
 export default function Explore() {
 
@@ -19,20 +20,71 @@ export default function Explore() {
   const { network, tlr } = useContext(AppContext)
   const [searchStr, setSearchStr] = useState('')
   const [items, setItems] = useState<any>(fakeSkeletons)
+  const [vipItems, setVIPItems] = useState<any>(fakeSkeletons)
   const [pageState, setPageState] = useState('loading')
 
   useEffect(() => {
     const firstFetch = async () => {
       setPageState('loading')
       const subrealms = await getSubrealmsFromBackend(network)
-      setItems(subrealms)
+      // separate VIP...
+      let vipSubrealms: any[] = [], collectionSubrealms: any[] = []
+      if (subrealms) {
+        subrealms.map((elem: any) => {
+          const { subrealm }: { subrealm: string } = elem
+          if (isCollectionSubrealm(subrealm)) {
+            collectionSubrealms.push(elem)
+          }
+          else {
+            vipSubrealms.push(elem)
+          }
+        })
+      }
+      // if (subrealms) {
+      //   subrealms.map((elem: any) => {
+      //     const { subrealm }: { subrealm: string } = elem
+      //     if (isCollectionSubrealm(subrealm)) {
+      //       collectionSubrealms.push(elem)
+      //     }
+      //     else {
+      //       vipSubrealms.push(elem)
+      //     }
+      //   })
+      // }
+      // if (subrealms) {
+      //   subrealms.map((elem: any) => {
+      //     const { subrealm }: { subrealm: string } = elem
+      //     if (isCollectionSubrealm(subrealm)) {
+      //       collectionSubrealms.push(elem)
+      //     }
+      //     else {
+      //       vipSubrealms.push(elem)
+      //     }
+      //   })
+      // }
+      setVIPItems(vipSubrealms)
+      setItems(collectionSubrealms)
       setPageState('ready')
     }
     firstFetch()
   }, [network])
 
+  const isCollectionSubrealm = (subrealm: string) => {
+    if (!subrealm)
+      return false
+    if (!parseInt(subrealm))
+      return false
+    const num = parseInt(subrealm)
+    // this is to check if subrealm is sth like '123aaa'
+    const num_str = new String(num).toString()
+    if (num_str === subrealm && num < 10000 && num > 0)
+      return true
+    return false
+  }
+
   return (
     <div>
+      <VIPCaurosel data={vipItems} />
       <div className="mt-4 mx-16 lg:mx-auto text-center space-x-2 lg:w-4/12">
         <Input
           color="default"

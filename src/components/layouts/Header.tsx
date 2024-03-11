@@ -51,7 +51,7 @@ export const Header = () => {
         <div className="hidden sm:flex sm:flex-row sm:space-x-12 md:pl-20">
           {
             menuItems.map((item: any) => (
-              <Link href={item.href}>
+              <Link key={item.text} href={item.href}>
                 {item.text}
               </Link>
             ))

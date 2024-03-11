@@ -1,8 +1,6 @@
 "use client"
 import { useEffect, useState } from "react"
 
-import { ImageFromUri } from "./ImageFromUri"
-
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
@@ -43,7 +41,11 @@ export const Collections = ({collectionsObject}: {collectionsObject: any}) => {
 
   return (
     <div className="flex flex-col gap-12 mb-20">
-      <div>Collections</div>
+      {
+        (collections && collections.length > 0) ? (
+          <div>Collections</div>
+        ) : (<></>)
+      }
       {
         collections && collections.map((elem: any) => {
           const { name, image, desc, previews } = elem

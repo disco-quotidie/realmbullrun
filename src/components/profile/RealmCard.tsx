@@ -13,7 +13,7 @@ import Link from "next/link";
 export const RealmCard = ({ atomicalId, links, subrealmName, imageData }: { atomicalId?: string, links?: any, subrealmName?: string, imageData: string }) => {
 
   return atomicalId?.startsWith('fake-skeleton') ? (
-    <Skeleton className="h-[277px] w-full rounded-xl" />
+    <Skeleton className="h-[277px] w-full " />
   ) : (
     <Card className={`flex flex-col items-center w-44 mx-auto`}>
       <CardHeader className="pb-0" >
