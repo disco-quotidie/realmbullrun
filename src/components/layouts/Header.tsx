@@ -31,7 +31,7 @@ export const Header = () => {
 
   return (
     <>
-      <Menubar className="flex justify-between p-8 rounded-none border-x-0">
+      <Menubar className="flex justify-between p-8 rounded-none border-x-0 border-t-0 bg-[#bf94eb21]">
         <Logo />
 
         <div className="sm:hidden">
