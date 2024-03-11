@@ -11,7 +11,7 @@ export default function VIPDummyCard ({data}: {data: any}) {
 
   return (
     <Link href={`/profile/${data.subrealm}`} target="_blank" title={`+${tlr}.${data.subrealm}`}>
-      <Image height={144} width={144} src={`${data.image}`} alt="" />
+      <Image className="mx-auto" height={144} width={144} src={`${data.image}`} alt="" />
     </Link>
   )
 }

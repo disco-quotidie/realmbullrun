@@ -155,7 +155,7 @@ export default function MintSubrealm () {
   }
 
   const openSatsbyteWindow = async (next: string) => {
-    const getRecommendedFeeAPI = `${network === "testnet" ? process.env.NEXT_PUBLIC_MEMPOOL_TESTNET_APIENDPOINT : process.env.NEXT_PUBLIC_MEMPOOL_APIENDPOINT}/api/v1/fees/recommended`
+    const getRecommendedFeeAPI = `${network === "testnet" ? process.env.NEXT_PUBLIC_MEMPOOL_TESTNET_APIENDPOINT : process.env.NEXT_PUBLIC_MEMPOOL_APIENDPOINT}/v1/fees/recommended`
     const response = await fetch(getRecommendedFeeAPI)
     const recommendedFees = await response.json()
     setFastestFee(recommendedFees.fastestFee)
