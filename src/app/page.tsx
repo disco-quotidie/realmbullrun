@@ -9,15 +9,15 @@ export default function Home() {
         Digital Passport powered by Bitcoin.
       </h2>
       <p className="leading-7 [&:not(:first-child)]:mt-6">
-        Realm names are self-owned and self-managed directly on the Bitcoin blockchain using the Atomicals Digital Object format — which basically means that there is no middle man or centralized registrar. Once you claim a name, it's yours forever or until you transfer it to someone else.
+        Realm names are self-owned and self-managed directly on the Bitcoin blockchain using the Atomicals Digital Object format — which basically means that there is no middle man or centralized registrar. Once you claim a name, it&apos;s yours forever or until you transfer it to someone else.
       </p>
       <blockquote className="text-2xl text-purple-400 transition-all hover:text-purple-300 mt-6 border-l-2 pl-6 italic">
         The internet-on-bitcoin is not a meme and will be televised.
       </blockquote>
 
       <p className="pt-4 leading-7 [&:not(:first-child)]:mt-6">
-        The Atomicals Bullrun isn't just a moment; it's a gateway to explore the groundbreaking technology offered by the Realm Name Service (RNS).
-        Here's what makes the Bullrun special:
+        The Atomicals Bullrun isn&apos;t just a moment; it&apos;s a gateway to explore the groundbreaking technology offered by the Realm Name Service (RNS).
+        Here&apos;s what makes the Bullrun special:
       </p>
       <ul className="my-6 ml-6 list-disc [&>li]:mt-2">
         <li className={"transition-all hover:scale-95"}>10,000 Subrealms</li>
@@ -38,7 +38,7 @@ export default function Home() {
         Configure rules based on advanced pattern matching,
         bitwork mining, and even enable payments in satoshis or ARC20 tokens.
         Your digital passport on the Bullrun is not just a record;
-        it's a testament to the potential of decentralized, blockchain-powered identity.
+        it&apos;s a testament to the potential of decentralized, blockchain-powered identity.
       </p>
 
       <div className="my-6 w-full overflow-y-auto">
@@ -106,7 +106,7 @@ export default function Home() {
                 Name identification
               </td>
               <td className="border px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right hover:bg-emerald-400">
-                Start with "+"
+                Start with &quot;+&quot;
               </td>
               <td className="border px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right transition-all hover:bg-red-400">
                 End suffix ie: .com
