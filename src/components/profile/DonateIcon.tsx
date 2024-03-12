@@ -5,13 +5,13 @@ import { LitecoinIcon } from '../icons/LitecoinIcon'
 import { DogecoinIcon } from '../icons/DogecoinIcon'
 
 export default function DynamicIcon ({ type }: { type: string }) {
-  if (type === "bitcoin")
+  if (type === "bitcoin" || type === "btc")
     return (<BitcoinIcon />)
-  if (type === "ethereum")
+  if (type === "ethereum" || type === "eth")
     return (<EthereumIcon />)
-    if (type === "litecoin")
+    if (type === "litecoin" || type === "lite")
     return (<LitecoinIcon />)
-  if (type === "dogecoin")
+  if (type === "dogecoin" || type === "doge")
     return (<DogecoinIcon />)
   return (<BsCurrencyBitcoin />)
 }

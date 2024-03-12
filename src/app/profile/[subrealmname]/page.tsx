@@ -1,14 +1,10 @@
 "use client"
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "@/providers/AppContextProvider";
 
-import { ImageFromUri } from "@/components/profile/ImageFromUri";
 import { Donates } from "@/components/profile/Donates";
 import { Links } from "@/components/profile/Links";
 import { Collections } from "@/components/profile/Collections"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import getProfileDataFromBackend from "@/lib/get-profile-data-from-backend";
@@ -39,7 +35,7 @@ const Profile = ({ params }: { params: { subrealmname: string } }) => {
         setStatus(NOT_FOUND)
       }
       else if (profileData.success) {
-        const { name, desc, image, links, subrealm, collections, atomical_id } = profileData.data
+        const { name, desc, image, links, wallets, subrealm, collections, atomical_id } = profileData.data
         if (name)
           setProfileName(name)
         if (desc)
@@ -47,7 +43,9 @@ const Profile = ({ params }: { params: { subrealmname: string } }) => {
         if (image)
           setImageData(image)
         if (links)
-          setLinksObject
+          setLinksObject(links)
+        if (wallets)
+          setWalletsObject(wallets)
         if (collections)
           setCollectionsObject(collections)
         setStatus(FOUND)
@@ -89,8 +87,29 @@ const Profile = ({ params }: { params: { subrealmname: string } }) => {
           <div>{description}</div>
         )
       }
+      {
+        (linksObject && Object.keys(linksObject).length > 0) ? (
+          <Separator className="lg:w-6/12 md:w-8/12 lg:mx-auto" />
+        ) : (
+          <></>
+        )
+      }
       <Links linksObject={linksObject} />
-      <Donates donates={walletsObject} />
+      {
+        (walletsObject && Object.keys(walletsObject).length > 0) ? (
+          <Separator className="lg:w-6/12 md:w-8/12 lg:mx-auto" />
+        ) : (
+          <></>
+        )
+      }
+      <Donates subrealm={subrealmname} donates={walletsObject} />
+      {
+        (collectionsObject && Object.keys(collectionsObject).length > 0) ? (
+          <Separator className="lg:w-6/12 md:w-8/12 lg:mx-auto" />
+        ) : (
+          <></>
+        )
+      }
       <Collections collectionsObject={collectionsObject} />
     </div>
   )

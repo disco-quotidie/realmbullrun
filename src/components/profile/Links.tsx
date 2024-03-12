@@ -2,25 +2,23 @@
 import Link from "next/link"
 import { DynamicIcon } from "./DynamicIcon"
 import { useEffect, useState } from "react"
-import { Separator } from "../ui/separator"
 
 export const Links = ({linksObject}: {linksObject: any}) => {
 
   const [linkList, setLinkList] = useState<any[]>([])
 
   useEffect(() => {
-    console.log(linksObject)
     let arr: any = []
     if (linksObject) {
-      Object.keys(linksObject).map((idx: any) => {
-        const { group, items } = linksObject[idx]
-        if (items) {
-          Object.keys(items).map((idx_: any) => {
-            arr.push({
-              name: items[idx_]["name"],
-              url: items[idx_]["url"],
-              type: items[idx_]["type"]
-            })
+      Object.keys(linksObject).map((linkKey: any) => {
+        const value = linksObject[linkKey]
+        if (value) {
+          const splits = value.split("/")
+          const name = splits[splits.length - 1]
+          arr.push({
+            name,
+            url: value,
+            type: linkKey
           })
         }
       })
@@ -30,7 +28,6 @@ export const Links = ({linksObject}: {linksObject: any}) => {
 
   return (
     <div className="flex lg:flex-row flex-col gap-8">
-      <Separator />
       {
         linkList && linkList.map((elem: any) => (
           <Link href={elem.url} target="_blank" key={`${elem.type}${elem.url}${elem.type}`}>
