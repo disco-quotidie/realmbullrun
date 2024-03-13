@@ -1,10 +1,9 @@
 export default function isProfileNft (elem: any) {
-  if (typeof elem !== "object")
+  if (!elem || typeof elem !== "object" || !elem.data || !elem.data.mint_data)
     return false
 
-  const { fields } = elem.mint_data
-  if (!fields || !fields['base_profile.json'])
-    return false
+  const { fields } = elem.data.mint_data
+
   let nameFound, descFound, vFound, imageFound, linksFound
   try {
     Object.keys(fields).map((keyStr: string) => {

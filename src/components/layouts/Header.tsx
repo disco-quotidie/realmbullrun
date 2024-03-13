@@ -26,6 +26,10 @@ export const Header = () => {
     {
       text: "Mint Subrealm",
       href: "/mint-subrealm"
+    },
+    {
+      text: "Profile",
+      href: "/profile"
     }
   ]
 
