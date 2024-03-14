@@ -22,7 +22,7 @@ export const Providers = ({
             disableTransitionOnChange
           >
             <Header></Header>
-            <div className=" max-w-[1280px] mx-auto" >
+            <div className="mt-20 max-w-[1280px] mx-auto" >
               {children}
             </div>
             <Footer></Footer>

@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${myFont.className} text-lg`}>
+      <body className={`${myFont.className} text-lg h-[calc(100vh-120px)]`}>
         <Providers>
           {children}
         </Providers>

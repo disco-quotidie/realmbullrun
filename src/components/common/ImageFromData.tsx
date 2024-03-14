@@ -13,7 +13,7 @@ export const ImageFromData = ({ imageData, key, additionalClass = "" }: { imageD
 
   return (
     <div>
-      <Image className={`${additionalClass} rounded-lg`} width={144} height={144} src={toImageSrc(imageData)} alt="No Image Found" />
+      <Image className={`${additionalClass} rounded-lg`} width={120} height={120} src={toImageSrc(imageData)} alt="No Image Found" />
     </div>
   )
 }

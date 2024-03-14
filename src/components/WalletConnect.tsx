@@ -251,7 +251,7 @@ export const WalletConnect = () => {
 
           {walletData.connected ? (
             <>
-              <Link target="_blank" href={`${network === "testnet" ? process.env.NEXT_PUBLIC_MEMPOOL_TESTNET_APIENDPOINT : process.env.NEXT_PUBLIC_MEMPOOL_APIENDPOINT}/address/${walletData.primary_addr}`}>
+              <Link target="_blank" href={`${network === "testnet" ? process.env.NEXT_PUBLIC_MEMPOOL_TESTNET_APIENDPOINT : process.env.NEXT_PUBLIC_MEMPOOL_APIENDPOINT}/../address/${walletData.primary_addr}`}>
                 History
               </Link>
               <MenubarSeparator />

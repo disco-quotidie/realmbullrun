@@ -40,28 +40,6 @@ export default function Explore() {
           }
         })
       }
-      // if (subrealms) {
-      //   subrealms.map((elem: any) => {
-      //     const { subrealm }: { subrealm: string } = elem
-      //     if (isCollectionSubrealm(subrealm)) {
-      //       collectionSubrealms.push(elem)
-      //     }
-      //     else {
-      //       vipSubrealms.push(elem)
-      //     }
-      //   })
-      // }
-      // if (subrealms) {
-      //   subrealms.map((elem: any) => {
-      //     const { subrealm }: { subrealm: string } = elem
-      //     if (isCollectionSubrealm(subrealm)) {
-      //       collectionSubrealms.push(elem)
-      //     }
-      //     else {
-      //       vipSubrealms.push(elem)
-      //     }
-      //   })
-      // }
       setVIPItems(vipSubrealms)
       setItems(collectionSubrealms)
       setPageState('ready')
@@ -85,7 +63,7 @@ export default function Explore() {
   return (
     <div>
       <VIPCaurosel data={vipItems} />
-      <div className="mt-4 mx-16 lg:mx-auto text-center space-x-2 lg:w-4/12">
+      <div className="mt-4 mx-4 lg:mx-auto text-center space-x-2 lg:w-8/12">
         <Input
           color="default"
           placeholder={`Search +${tlr} subrealms here...`}
@@ -99,7 +77,7 @@ export default function Explore() {
           ) : (<></>)
         }
       </div>
-      <div className="mx-16 mt-4 grid lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-2 gap-4">
+      <div className="mx-4 mt-4 grid grid-cols-2 lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 gap-4">
         {
           items && items.filter((elem: any) => (elem.atomical_id.startsWith("fake-skeleton") || elem.subrealm.indexOf(searchStr) > -1)).map((elem: any) => (
             <RealmCard key={elem.atomical_id} links={elem.links} imageData={elem.image} subrealmName={elem.subrealm} atomicalId={elem.atomical_id} />

@@ -1,8 +1,8 @@
 export default function isPfpNft (elem: any) {
-  if (!elem || typeof elem !== "object" || !elem.mint_data)
+  if (!elem || typeof elem !== "object" || !elem.data || !elem.data.mint_data)
     return false
 
-  const { fields } = elem.mint_data
+  const { fields } = elem.data.mint_data
   if (!fields)
     return false
 

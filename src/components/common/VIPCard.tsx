@@ -19,7 +19,7 @@ export default function VIPCard ({data}: {data: any}) {
     )
 
   return (
-    <Link href={`/profile/${data.subrealm}`} target="_blank" title={`+${tlr}.${data.subrealm}`}>
+    <Link href={`/profil/${tlr}.${data.subrealm}`} target="_blank" title={`+${tlr}.${data.subrealm}`}>
       {/* <HoverCard>
         <HoverCardTrigger> */}
           <ImageFromData additionalClass="mx-auto cursor-pointer" imageData={data.image} />          

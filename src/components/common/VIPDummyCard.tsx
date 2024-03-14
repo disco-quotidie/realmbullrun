@@ -10,7 +10,7 @@ export default function VIPDummyCard ({data}: {data: any}) {
   const { tlr } = useContext(AppContext)
 
   return (
-    <Link href={`/profile/${data.subrealm}`} target="_blank" title={`+${tlr}.${data.subrealm}`}>
+    <Link href={`/profil/${tlr}.${data.subrealm}`} target="_blank" title={`+${tlr}.${data.subrealm}`}>
       <Image className="mx-auto" height={144} width={144} src={`${data.image}`} alt="" />
     </Link>
   )

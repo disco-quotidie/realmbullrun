@@ -28,7 +28,7 @@ export const Collections = ({collectionsObject}: {collectionsObject: any}) => {
   }, [collectionsObject])
 
   return (
-    <div className="flex flex-col gap-8 mb-20">
+    <div className="flex flex-col gap-12">
       {
         (collections && collections.length > 0) ? (
           <div>Collections</div>
@@ -39,15 +39,15 @@ export const Collections = ({collectionsObject}: {collectionsObject: any}) => {
           const { name, image, desc, previews } = elem
           console.log(previews)
           return (
-            <div className="flex flex-col gap-1" key={`${name.toString()}${desc.toString()}`}>
-              <div className="flex flex-row items-center justify-between">
-                <ImageFromData additionalClass="" imageData={image}  />
+            <div className="flex flex-col gap-2" key={`${name.toString()}${desc.toString()}`}>
+              <div className="flex lg:flex-row flex-col items-center justify-between">
+                <ImageFromData additionalClass="w-[170px]" imageData={image}  />
                 <div className="flex flex-col mx-auto">
                   <div>{name.toString()}</div>
-                  <div className="max-w-[240px]">{desc.toString()}</div>
+                  <div className="lg:max-w-[240px]">{desc.toString()}</div>
                 </div>
               </div>
-              <div className="flex flex-row space-x-2 text-center justify-center">
+              <div className="flex flex-row space-x-2 text-center justify-between">
                 {
                   previews.map((preview: any, index: any) => (
                     <ImageFromData additionalClass="" key={index} imageData={preview.toString()} />

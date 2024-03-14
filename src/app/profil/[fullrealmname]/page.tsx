@@ -9,12 +9,13 @@ import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import getProfileDataFromBackend from "@/lib/get-profile-data-from-backend";
 import { ImageFromData } from "@/components/common/ImageFromData";
+import { split } from "postcss/lib/list";
 
 const NOT_FOUND = "not-found"
 const LOADING = "loading"
 const FOUND = "found"
 
-const Profile = ({ params }: { params: { subrealmname: string } }) => {
+const Profile = ({ params }: { params: { fullrealmname: string } }) => {
 
   const [profileName, setProfileName] = useState("")
   const [description, setDescription] = useState("")
@@ -23,9 +24,11 @@ const Profile = ({ params }: { params: { subrealmname: string } }) => {
   const [walletsObject, setWalletsObject] = useState({})
   const [collectionsObject, setCollectionsObject] = useState({})
 
-  const { subrealmname } = params
+  const { fullrealmname } = params
   const [status, setStatus] = useState(LOADING)
   const { network, tlr, showError, showAlert } = useContext(AppContext)  
+  
+  const subrealmname = fullrealmname.startsWith(`${tlr}.`) ? fullrealmname.substring(tlr.length + 1, fullrealmname.length) : fullrealmname
 
   useEffect(() => {
     const fetchData = async () => {
@@ -64,7 +67,7 @@ const Profile = ({ params }: { params: { subrealmname: string } }) => {
   return (
     <div className="lg:w-6/12 lg:mx-auto mt-8 mx-8 flex flex-col items-center justify-around gap-4 text-center">
       <div className="text-2xl">
-        {`+${subrealmname}`}
+        {`+${fullrealmname}`}
       </div>
       {
         status === LOADING ? (

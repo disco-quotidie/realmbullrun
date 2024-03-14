@@ -12,22 +12,19 @@ import NameEdit from "./NameEdit"
 import DescriptionEdit from "./DescriptionEdit"
 import LinksEdit from "./LinksEdit"
 import DonatesEdit from "./DonatesEdit"
-import { useState } from "react"
+import { useContext, useEffect, useState } from "react"
+import getAtomicalInfoFromId from "@/lib/get-atomical-info-from-id"
+import { AppContext } from "@/providers/AppContextProvider"
 
 export default function Profile ({
-  data
+  atomical_id,
+  pfpNftList
 }: {
-  data: any,
-  // getUpdatedAndProceed
+  atomical_id: string,
+  pfpNftList: any[]
 }) {
 
-  const [isUpdateDialogOpen, setIsUpdateDialogOpen] = useState(false)
-  const [realmList, setRealmList] = useState<any>([])
-  const [subrealmList, setSubrealmList] = useState<any>([])
-  const [pfpNftList, setPfpNftList] = useState<any>([])
-  const [profileNftList, setProfileNftList] = useState<any>([])
-  const [currentRealm, setCurrentRealm] = useState<any>(null)
-
+  const { network } = useContext(AppContext)
   const [selectedPFPId, setSelectedPFPId] = useState<string>("")
   const [selectedPFPData, setSelectedPFPData] = useState<any>()
   const [isPFPSheetOpen, setIsPFPSheetOpen] = useState(false)
@@ -36,13 +33,25 @@ export default function Profile ({
   const [links, setLinks] = useState<any>([])
   const [donates, setDonates] = useState<any>([])
 
-  const openUpdateDialog = () => {
-    setIsUpdateDialogOpen(true)
-  }
-
-  const onCloseUpdateDialog = () => {
-    setIsUpdateDialogOpen(false)
-  }
+  useEffect(() => {
+    const fetchData = async (id: string) => {
+      const res = await getAtomicalInfoFromId(id, network)
+      if (res && (res.confirmed || res.confirmed === "true") && res.mint_data && res.mint_data.fields) {
+        const { name, desc, image, links: linksObject, collections: collectionsObject, wallets: walletsObject } = res.mint_data.fields
+        if (name)
+          setProfileName(name)
+        if (desc)
+          setProfileDescription(desc)
+        if (image)
+          setSelectedPFPData(image)
+        // if (linksObject)
+        //   setLinks(linksObject)
+        // if (walletsObject)
+        //   setDonates(walletsObject)
+      }
+    }
+    fetchData(atomical_id)
+  }, [atomical_id])
 
   return (
     <div className="text-center justify-center lg:w-6/12 lg:mx-auto mx-8">
@@ -62,7 +71,7 @@ export default function Profile ({
                           setSelectedPFPData(data)
                           setIsPFPSheetOpen(false)
                         }} 
-                        data={elem} 
+                        data={elem.data} 
                         key={elem.atomical_id} 
                       />
                     ))

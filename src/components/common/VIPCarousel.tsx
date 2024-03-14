@@ -5,8 +5,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
-import VIPCard from "./VIPCard"
-import { useEffect } from "react"
+
 import Autoplay from "embla-carousel-autoplay"
 import VIPDummyCard from "./VIPDummyCard"
 
@@ -53,7 +52,7 @@ export default function VIPCaurosel ({ data }: { data: any[] }) {
           {
             // data.map((vipItem: any, index: any) => (
             dummyData.map((dummyItem: any, index: any) => (
-              <CarouselItem className="lg:basis-1/5 md:basis-1/4 sm:basis-1/2 basis-full" key={index}>
+              <CarouselItem className="lg:basis-1/5 md:basis-1/3 sm:basis-1/3 basis-full" key={index}>
                 {/* <VIPCard data={vipItem} /> */}
                 <VIPDummyCard data={dummyItem} />
               </CarouselItem>

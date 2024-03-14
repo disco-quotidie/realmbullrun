@@ -28,14 +28,14 @@ export const Header = () => {
       href: "/mint-subrealm"
     },
     {
-      text: "Profile",
-      href: "/profile"
+      text: "Profil",
+      href: "/profil"
     }
   ]
 
   return (
     <>
-      <Menubar className="flex justify-between p-8 rounded-none border-x-0 border-t-0 bg-[#bf94eb21]">
+      <Menubar className="fixed z-50 top-0 w-full flex justify-between sm:px-8 px-4 py-8 rounded-none border-x-0 border-t-0 bg-[#914687]">  {/* //#bf94eb21 */}
         <Logo />
 
         <div className="sm:hidden">
@@ -49,6 +49,10 @@ export const Header = () => {
                   </MenubarItem>
                 ))
               }
+              <div className="flex sm:hidden flex-row space-x-2">
+                <ModeToggle />
+                <WalletConnect />
+              </div>
             </MenubarContent>
           </MenubarMenu>
         </div>
@@ -62,7 +66,7 @@ export const Header = () => {
           }
         </div>
 
-        <div className="flex flex-row space-x-2">
+        <div className="hidden sm:flex flex-row space-x-2">
           <ModeToggle />
           <WalletConnect />
         </div>

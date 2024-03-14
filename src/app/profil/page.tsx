@@ -46,16 +46,20 @@ import ClickToChoosePFP from "@/components/profile/ClickToChoosePFP"
 import isProfileNft from "@/lib/is-profile-nft"
 import isPfpNft from "@/lib/is-pfp-nft"
 import getAtomicalsFromAddress from "@/lib/get-atomicals-from-address"
+import Profile from "@/components/profile/Profile"
 
-export default function Profile () {
+export default function Profiles () {
   const { network, showAlert, showError, tlr, mnemonic } = useContext(AppContext)
   const { walletData } = useContext(WalletContext)
 
   const [subrealmList, setSubrealmList] = useState<any>([])
   const [currentRealm, setCurrentRealm] = useState<any>(null)
+  const [currentProfileId, setCurrentProfileId] = useState()
   const [pfpNftList, setPfpNftList] = useState<any>([])
   const [profileNftList, setProfileNftList] = useState<any>([])
+  const [profileSelectPlaceholder, setProfileSelectPlaceholder] = useState("Select your profile NFT")
   const [isPFPSheetOpen, setIsPFPSheetOpen] = useState(false)
+  const [isSetDialogOpen, setSetDialogOpen] = useState(false)
 
   useEffect(() => {
 
@@ -99,6 +103,10 @@ export default function Profile () {
 
         setPfpNftList(pfps)
         setProfileNftList(profiles)
+        if (profiles.length > 0) {
+          setCurrentProfileId(profiles[0].atomical_id)
+          // setProfileSelectPlaceholder(`${profiles[0].atomical_id.substring(0, 5)}...${profiles[0].atomical_id.substring(profiles[0].atomical_id.length - 5, profiles[0].atomical_id.length)}`)
+        }
       }
     }
 
@@ -187,30 +195,29 @@ export default function Profile () {
   return (
     <div className="text-center justify-center lg:w-6/12 lg:mx-auto mx-8">
       <div className="my-4 flex flex-col items-center justify-center gap-4">
-        <div>Your On-Chain Profile</div>
-        {
-          profileNftList.map((profileNft: any) => (
-            <div key={profileNft.id}>
-              <span>{profileNft.id}</span>
-              <span>{profileNft.atomical_id}</span>
-            </div>
-          ))
-        }
-        <Select value={!currentRealm ? "" : currentRealm.atomical_id} onValueChange={(val: any) => setCurrentRealm({atomical_id: val.toString()})}>
+        <div>Your On-Chain Profiles</div>
+        <p>
+          Profiles are also NFTs permanently residing on Bitcoin. Once you mint them, you can set them to any of your subrealm to show everyone...
+        </p>
+        <Select value={!currentProfileId ? "" : currentProfileId} onValueChange={(val: any) => setCurrentProfileId(val.toString())}>
           <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Select your realm" />
+            <SelectValue placeholder={profileSelectPlaceholder} />
           </SelectTrigger>
           <SelectContent>
-            {/* {
-              realmList.map((elem: any) => (
-                <SelectItem key={elem.atomical_id} value={`\"${elem.atomical_id}\"`}>{elem.$full_realm_name}</SelectItem>
+            {
+              profileNftList.map((elem: any) => (
+                <SelectItem key={elem.atomical_id} value={`\"${elem.atomical_id}\"`}>{elem.atomical_id.substring(0, 5)}...{elem.atomical_id.substring(elem.atomical_id.length - 5, elem.atomical_id.length)}</SelectItem>
               ))
-            } */}
+            }
           </SelectContent>
         </Select>
+        <Button className="lg:w-1/2 w-full lg:mx-auto" onClick={() => {
+          setSetDialogOpen(true)
+        }}>Set to Realm</Button>
+        
       </div>
 
-      <Sheet open={isPFPSheetOpen} onOpenChange={() => setIsPFPSheetOpen(false)}>
+      {/* <Sheet open={isPFPSheetOpen} onOpenChange={() => setIsPFPSheetOpen(false)}>
         <SheetContent>
           <SheetHeader>
             <SheetTitle>Choose one of your NFT as your avatar.</SheetTitle>
@@ -235,7 +242,9 @@ export default function Profile () {
             </SheetDescription>
           </SheetHeader>
         </SheetContent>
-      </Sheet>
+      </Sheet> */}
+
+      <Profile atomical_id={currentProfileId || ""} pfpNftList={pfpNftList} />
 
       <div className="flex flex-col gap-4 mt-6">
         <Button className="lg:w-1/2 w-full lg:mx-auto" onClick={() => {
@@ -249,16 +258,27 @@ export default function Profile () {
         }}>Get History</Button>
       </div>
 
-      {/* <Dialog open={isUpdateDialogOpen} onOpenChange={onCloseUpdateDialog} modal>
+      <Dialog open={isSetDialogOpen} onOpenChange={() => setSetDialogOpen(false)} modal>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Update your profile</DialogTitle>
+            <DialogTitle>Set your profile to your realm</DialogTitle>
             <DialogDescription>
-              This might take a few minutes. Please do not close this tab.
+              <Select value={!currentRealm ? "" : currentRealm.atomical_id} onValueChange={(val: any) => setCurrentRealm({atomical_id: val.toString()})}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Select your realm" />
+                </SelectTrigger>
+                <SelectContent>
+                  {
+                    subrealmList.map((elem: any) => (
+                      <SelectItem key={elem.atomical_id} value={`\"${elem.atomical_id}\"`}>{elem.full_realm_name}</SelectItem>
+                    ))
+                  }
+                </SelectContent>
+              </Select>
             </DialogDescription>
           </DialogHeader>
         </DialogContent>
-      </Dialog> */}
+      </Dialog>
     </div>
   )
 }
