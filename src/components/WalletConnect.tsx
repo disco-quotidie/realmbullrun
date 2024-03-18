@@ -51,7 +51,7 @@ export const WalletConnect = () => {
 
   const connectOKX = async () => {
     if (hasOKXExtension()) {
-      const result = await window.okxwallet.bitcoin.connect()
+      const result = await window.okxwallet.bitcoin.requestAccounts()
       if (result && result.address) {
         setWalletData({
           ...walletData,
@@ -86,8 +86,8 @@ export const WalletConnect = () => {
 
   const isOKXConnected = async () => {
     if (hasOKXExtension()) {
-      const result = await window.okxwallet.bitcoin.connect()
-      return (result && result.address) 
+      const result = await window.okxwallet.bitcoin.getAccounts()
+      return (result && result.length > 0) 
     }
   }
 
@@ -120,7 +120,7 @@ export const WalletConnect = () => {
   
   const getOKXAccounts = async () => {
     if (typeof window !== 'undefined' && typeof window.okxwallet !== 'undefined') {
-      const accounts: string[] = await window.okxwallet.bitcoin.getAccounts()
+      const accounts: string[] = await window.okxwallet.bitcoin.requestAccounts()
       if ( accounts && accounts.length > 0 && accounts[0].startsWith('tb') )
         setNetwork('testnet')
       return accounts
@@ -239,10 +239,11 @@ export const WalletConnect = () => {
         });
 
         const accounts = await getOKXAccounts()
+        console.log(accounts)
         if (accounts.length > 0) {
           setWalletData({
             ...walletData,
-            type: "unisat",
+            type: "okx",
             connected: true,
             primary_addr: accounts[0],
           });
@@ -328,7 +329,7 @@ export const WalletConnect = () => {
           )}
 
           <MenubarSeparator />
-          <div className="w-full flex content-center items-center justify-between">
+          <div className="w-full flex content-center items-center justify-between hidden">
             {network === 'bitcoin' ?
               <BitcoinIcon /> : <RepairIcon />
             }
