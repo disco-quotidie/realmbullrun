@@ -251,7 +251,7 @@ export default function MintSubrealm () {
         const { current_block_height, request_subrealm } = result.data
         setCurrentBlockHeight(current_block_height)
         const { pending_awaiting_confirmations_for_payment_window, pending, pending_awaiting_payment } = request_subrealm
-        setPendingCandidates(pending)
+        setPendingCandidates(pending ? pending : [])
         setPendingAwaitingConfirmations([])
         if (pending_awaiting_confirmations_for_payment_window && pending_awaiting_confirmations_for_payment_window.length > 0) {
           setPendingAwaitingConfirmations(pending_awaiting_confirmations_for_payment_window)
