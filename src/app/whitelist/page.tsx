@@ -48,6 +48,11 @@ export default function Whitelist() {
     }
   }, [walletData.primary_addr])
 
+  useEffect(() => {
+    if (!walletData.connected)
+      setStatus("no-wallet")
+  }, [walletData.connected])
+
   const submit = async (atomicalId: string, full_realm_name: string) => {
     let item = ''
     const splits = full_realm_name.split('.')
@@ -117,7 +122,7 @@ export default function Whitelist() {
       </div>
     )
 
-  if (!walletData.connected) 
+  if (status === "no-wallet") 
     return (
       <div className="lg:mx-auto lg:w-6/12 mx-8 text-center">
         Please connect your wallet to continue...
