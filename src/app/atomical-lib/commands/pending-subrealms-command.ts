@@ -73,6 +73,7 @@ export class PendingSubrealmsCommand implements CommandInterface {
     switch (entry['request_subrealm_status']['status']) {
       case 'pending_awaiting_confirmations_payment_received_prematurely':
       case 'pending_awaiting_confirmations_for_payment_window':
+      case 'pending':
       case 'pending_awaiting_confirmations':
       case 'pending_awaiting_payment':
         if (PendingSubrealmsCommand.isCurrentAtomicalPendingCandidate(entry))
@@ -145,7 +146,7 @@ export class PendingSubrealmsCommand implements CommandInterface {
       ...statusMap,
     };
 
-    const { pending_awaiting_payment = [], pending_awaiting_confirmations_for_payment_window = [] } = statusReturn.request_subrealm
+    const { pending = [], pending_awaiting_payment = [], pending_awaiting_confirmations_for_payment_window = [] } = statusReturn.request_subrealm
 
     for (let i = 0; i < pending_awaiting_payment.length; i++) {
       const element = pending_awaiting_payment[i];
@@ -185,8 +186,6 @@ export class PendingSubrealmsCommand implements CommandInterface {
         console.log('Payment Address:', expectedAddress);
       }
     }
-
-    console.log(statusReturn)
 
     return {
       success: true,

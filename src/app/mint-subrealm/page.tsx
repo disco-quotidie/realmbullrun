@@ -62,6 +62,7 @@ export default function MintSubrealm () {
   // get pending subs logic state variables
   const [pendingState, setPendingState] = useState('ready')
   const [pendingDialogOpen, setPendingDialogOpen] = useState(false)
+  const [pendingCandidates, setPendingCandidates] = useState([])
   const [pendingAwaitingConfirmations, setPendingAwaitingConfirmations] = useState([])
   const [pendingAwaitingPayments, setPendingAwaitingPayments] = useState([])
   const [currentBlockHeight, setCurrentBlockHeight] = useState(2578696)    // block height at this time of coding...lol...
@@ -249,7 +250,8 @@ export default function MintSubrealm () {
       if ( result && result.data ) {
         const { current_block_height, request_subrealm } = result.data
         setCurrentBlockHeight(current_block_height)
-        const { pending_awaiting_confirmations_for_payment_window, pending_awaiting_payment } = request_subrealm
+        const { pending_awaiting_confirmations_for_payment_window, pending, pending_awaiting_payment } = request_subrealm
+        setPendingCandidates(pending)
         setPendingAwaitingConfirmations([])
         if (pending_awaiting_confirmations_for_payment_window && pending_awaiting_confirmations_for_payment_window.length > 0) {
           setPendingAwaitingConfirmations(pending_awaiting_confirmations_for_payment_window)
@@ -492,6 +494,26 @@ export default function MintSubrealm () {
                   }
                 </div>
               </div>
+
+              <div className="mt-8">
+                <div>
+                  Pending for Candidates - wait 3 blocks for other candidates
+                </div>
+                <div className="mt-2">
+                  {
+                    pendingCandidates.map((elem: any) => (
+                      <div key={elem.atomical_id} className="mt-6">
+                        <div>Atomical #{elem.atomical_number}: +{elem.request_full_realm_name}</div>
+                        <div>Payment from height: {elem.make_payment_from_height}</div>
+                        <div>payment no later than: {elem.payment_due_no_later_than_height}</div>
+                        <div>Candidates: {elem.subrealm_candidates.length}</div>
+                      </div>
+                    ))
+                  }
+                </div>
+              </div>
+
+              
             </DialogDescription>
           </DialogHeader>
         </DialogContent>
