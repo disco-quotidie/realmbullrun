@@ -30,6 +30,10 @@ export const Header = () => {
     {
       text: "Profil",
       href: "/profil"
+    },
+    {
+      text: "Whitelist",
+      href: "/whitelist"
     }
   ]
 
@@ -56,7 +60,7 @@ export const Header = () => {
             </MenubarContent>
           </MenubarMenu>
         </div>
-        <div className="hidden sm:flex sm:flex-row sm:space-x-12 md:pl-8">
+        <div className="hidden sm:flex sm:flex-row sm:space-x-10 ">
           {
             menuItems.map((item: any) => (
               <Link key={item.text} href={item.href}>

@@ -118,6 +118,16 @@ export const WalletConnect = () => {
     return []
   }
   
+  const getOKXAccounts = async () => {
+    if (typeof window !== 'undefined' && typeof window.okxwallet !== 'undefined') {
+      const accounts: string[] = await window.okxwallet.bitcoin.getAccounts()
+      if ( accounts && accounts.length > 0 && accounts[0].startsWith('tb') )
+        setNetwork('testnet')
+      return accounts
+    }
+    return []
+  }
+
   const disconnectWallet = () => {
     setWalletData({
       type: null,
@@ -211,6 +221,24 @@ export const WalletConnect = () => {
         });
 
         const accounts = await getUnisatAccounts()
+        if (accounts.length > 0) {
+          setWalletData({
+            ...walletData,
+            type: "unisat",
+            connected: true,
+            primary_addr: accounts[0],
+          });
+        }
+      }
+      else if (typeof window !== 'undefined' && await hasOKXExtension() && await isOKXConnected()) {
+
+        // network changed ???
+
+        window.okxwallet.bitcoin.on('accountsChanged', (accounts: Array<string>) => {
+          connectOKX()
+        });
+
+        const accounts = await getOKXAccounts()
         if (accounts.length > 0) {
           setWalletData({
             ...walletData,
