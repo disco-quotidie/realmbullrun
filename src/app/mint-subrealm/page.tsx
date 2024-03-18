@@ -452,9 +452,13 @@ export default function MintSubrealm () {
               </div>
 
               <div className="mt-8">
-                <div>
-                  Pending Awaiting Payments
-                </div>
+                {
+                  pendingAwaitingPayments && pendingAwaitingPayments.length > 0 ? (
+                    <div>
+                      Pending Awaiting Payments
+                    </div>
+                  ) : (<></>)
+                }
                 <div className="">
                   {
                     pendingAwaitingPayments.map((elem: any) => {
@@ -478,9 +482,13 @@ export default function MintSubrealm () {
               </div>
 
               <div className="mt-8">
-                <div>
-                  Pending Awaiting Confirmations for Payment Window
-                </div>
+                {
+                  pendingAwaitingConfirmations && pendingAwaitingConfirmations.length > 0 ? (
+                    <div>
+                      Pending Awaiting Confirmations for Payment Window
+                    </div>
+                    ) : (<></>)
+                }
                 <div className="mt-2">
                   {
                     pendingAwaitingConfirmations.map((elem: any) => (
@@ -496,9 +504,13 @@ export default function MintSubrealm () {
               </div>
 
               <div className="mt-8">
-                <div>
-                  Pending for Candidates - wait 3 blocks for other candidates
-                </div>
+                {
+                  pendingCandidates && pendingCandidates.length > 0 ? (
+                    <div>
+                      Pending for Candidates - wait 3 blocks for other candidates
+                    </div>
+                  ) : (<></>)
+                }
                 <div className="mt-2">
                   {
                     pendingCandidates.map((elem: any) => (
