@@ -32,12 +32,12 @@ export default function Explore() {
       if (subrealms) {
         subrealms.map((elem: any) => {
           const { subrealm }: { subrealm: string } = elem
-          if (isCollectionSubrealm(subrealm)) {
+          // if (isCollectionSubrealm(subrealm)) {
             collectionSubrealms.push(elem)
-          }
-          else {
-            vipSubrealms.push(elem)
-          }
+          // }
+          // else {
+          //   vipSubrealms.push(elem)
+          // }
         })
       }
       setVIPItems(vipSubrealms)
