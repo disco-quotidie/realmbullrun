@@ -1,6 +1,6 @@
 import { BsPersonBoundingBox, BsTwitterX, BsLink45Deg, BsLinkedin, BsFacebook, BsYoutube, BsGithub, BsTelegram, BsDiscord, BsInstagram } from 'react-icons/bs'
 
-export const DynamicIcon = ({url, type}: {url?: string, type: string}) => {
+export const DynamicIcon = ({ url, type }: { url?: string, type: string }) => {
   if (type === "official")
     return (<BsLink45Deg />)
   if (type === "x" || type === "twitter")

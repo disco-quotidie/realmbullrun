@@ -15,7 +15,7 @@ export const RealmCard = ({ atomicalId, links, subrealmName, imageData }: { atom
   return atomicalId?.startsWith('fake-skeleton') ? (
     <Skeleton className="h-[176px] w-full " />
   ) : (
-    <Card className={`flex flex-col items-center w-full max-w-44 mx-auto`}>
+    <Card className={`flex flex-col items-center w-full max-w-44 mx-auto hover:shadow-[0px_0px_40px_4px_rgba(117,141,179,0.31)]`}>
       <CardHeader className="pb-0" >
         <ImageFromData imageData={imageData} />
         <div className="flex flex-col items-center justify-around space-y-2">
@@ -31,14 +31,14 @@ export const RealmCard = ({ atomicalId, links, subrealmName, imageData }: { atom
       <CardFooter className="w-full flex justify-around ">
         {
           (links && (links.x || links.twitter)) ? (
-            <Link href={links.x || links.twitter} target="_blank">
+            <Link className="hover:scale-95" href={links.x || links.twitter} target="_blank">
               <DynamicIcon type="x" url={links.x || links.twitter} />
             </Link>
           ) : (
             <></>
           )
         }
-        <Link href={`/profil/${tlr}.${subrealmName}`} target="_blank">
+        <Link className="hover:scale-95" href={`/profil/${tlr}.${subrealmName}`} target="_blank">
           <DynamicIcon type="person" />
         </Link>
       </CardFooter>

@@ -39,10 +39,10 @@ export const Header = () => {
 
   return (
     <>
-      <Menubar className="fixed z-50 top-0 w-full flex justify-between sm:px-8 px-4 py-8 rounded-none border-x-0 border-t-0 bg-[#914687]">  {/* //#bf94eb21 */}
+      <Menubar className="fixed z-50 top-0 w-full flex justify-between sm:px-8 px-4 py-8 rounded-none border-x-0 border-t-0 bg-[#1e293b]">  {/* //#bf94eb21 */}
         <Logo />
 
-        <div className="sm:hidden">
+        <div className="sm:hidden text-[#f8fafc]">
           <MenubarMenu >
             <MenubarTrigger><BsList size="24" /></MenubarTrigger>
             <MenubarContent className="flex flex-col gap-2">
@@ -63,7 +63,7 @@ export const Header = () => {
         <div className="hidden sm:flex sm:flex-row sm:space-x-10 ">
           {
             menuItems.map((item: any) => (
-              <Link key={item.text} href={item.href}>
+              <Link className="text-[#f8fafc]" key={item.text} href={item.href}>
                 {item.text}
               </Link>
             ))

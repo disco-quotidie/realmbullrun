@@ -13,7 +13,7 @@ import QRCode from "react-qr-code"
 import { AppContext } from "@/providers/AppContextProvider"
 import { ClipboardCopyIcon } from "lucide-react"
 
-export const Donates = ({donates, subrealm}: {donates: any, subrealm: string}) => {
+export const Donates = ({ donates, subrealm }: { donates: any, subrealm: string }) => {
 
   const { tlr, showAlert } = useContext(AppContext)
   const [donateList, setDonateList] = useState<any[]>([])
@@ -44,7 +44,7 @@ export const Donates = ({donates, subrealm}: {donates: any, subrealm: string}) =
   }
 
   return (
-    <div className="flex lg:flex-row flex-col gap-8">
+    <div className="flex  flex-col gap-4">
       {
         donateList && donateList.map((elem: any) => {
           let type = "btc"
@@ -72,8 +72,8 @@ export const Donates = ({donates, subrealm}: {donates: any, subrealm: string}) =
                   {`${qrCode.substring(0, 5)}.....${qrCode.substring(qrCode.length - 5, qrCode.length)}`}
                 </div>
 
-                <ClipboardCopyIcon 
-                  className="cursor-pointer" 
+                <ClipboardCopyIcon
+                  className="cursor-pointer"
                   onClick={() => {
                     if (typeof navigator !== "undefined") {
                       navigator.clipboard.writeText(qrCode)
@@ -88,7 +88,7 @@ export const Donates = ({donates, subrealm}: {donates: any, subrealm: string}) =
                   style={{ height: "auto", maxWidth: "100%", width: "100%" }}
                   value={qrCode}
                   viewBox={`0 0 256 256`}
-                  />
+                />
               </div>
             </DialogDescription>
           </DialogHeader>

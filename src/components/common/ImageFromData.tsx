@@ -1,4 +1,4 @@
-import Image from "next/image"
+import Image from "next/image";
 
 export const ImageFromData = ({ imageData, key, additionalClass = "" }: { imageData: string, key?: string, additionalClass?: string }) => {
 
@@ -13,7 +13,7 @@ export const ImageFromData = ({ imageData, key, additionalClass = "" }: { imageD
 
   return (
     <div>
-      <Image className={`${additionalClass} rounded-lg`} width={120} height={120} src={toImageSrc(imageData)} alt="No Image Found" />
+      <Image className={`${additionalClass} rounded-lg shadow-[0px_0px_40px_4px_rgba(117,141,179,0.31)]`} width={256} height={256} src={toImageSrc(imageData)} alt="No Image Found" />
     </div>
   )
 }

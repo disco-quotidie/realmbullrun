@@ -1,11 +1,13 @@
 "use client"
 import { useEffect, useState } from "react"
-
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { ImageFromData } from "../common/ImageFromData"
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "../ui/carousel"
+import Autoplay from "embla-carousel-autoplay"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
 
-export const Collections = ({collectionsObject}: {collectionsObject: any}) => {
+export const Collections = ({ collectionsObject }: { collectionsObject: any }) => {
 
   const [collections, setCollections] = useState<any[]>([])
 
@@ -24,41 +26,53 @@ export const Collections = ({collectionsObject}: {collectionsObject: any}) => {
       })
       setCollections(arr)
     }
-    
+
   }, [collectionsObject])
 
   return (
-    <div className="flex flex-col gap-12">
-      {
-        (collections && collections.length > 0) ? (
-          <div>Collections</div>
-        ) : (<></>)
-      }
-      {
-        collections && collections.map((elem: any) => {
-          const { name, image, desc, previews } = elem
-          console.log(previews)
+    <Carousel orientation="horizontal" plugins={[
+      Autoplay({
+        delay: 5000,
+      }),
+    ]}>
+      <CarouselContent className="">
+        {collections && collections.map((elem: any) => {
+          const { name, image, desc, previews } = elem;
           return (
-            <div className="flex flex-col gap-2" key={`${name.toString()}${desc.toString()}`}>
-              <div className="flex lg:flex-row flex-col items-center justify-between">
-                <ImageFromData additionalClass="w-[170px]" imageData={image}  />
-                <div className="flex flex-col mx-auto">
-                  <div>{name.toString()}</div>
-                  <div className="lg:max-w-[240px]">{desc.toString()}</div>
-                </div>
-              </div>
-              <div className="flex flex-row space-x-2 text-center justify-between">
-                {
-                  previews.map((preview: any, index: any) => (
-                    <ImageFromData additionalClass="" key={index} imageData={preview.toString()} />
-                  ))
-                }
-              </div>
-              <Button><Link target="_blank" href={`https://wizz.cash/dmint/${name.toLowerCase()}`}>Show on Wizz</Link></Button>
-            </div>  
-          )
-        })
-      }
-    </div>
+            <>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <CarouselItem key={`${name.toString()}${desc.toString()}`} className="flex flex-col items-center justify-center cursor-pointer">
+                    <ImageFromData additionalClass="w-[144px]" imageData={image} />
+                    <p className="" >{name.toString()}</p>
+                    <div className="hidden md:flex p-4 text-muted-foreground">{desc.toString()}</div>
+                  </CarouselItem>
+                </DialogTrigger>
+                <DialogContent className="w-10/12">
+                  <DialogHeader>
+                    <DialogTitle>{name.toString()}</DialogTitle>
+                    <DialogDescription>
+                      {desc.toString()}
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="flex flex-wrap gap-2 justify-center">
+                    {
+                      previews.map((preview: any, index: any) => (
+                        <ImageFromData additionalClass="w-[72px] lg:w-[144px]" key={index} imageData={preview.toString()} />
+                      ))
+                    }
+                  </div>
+                  <DialogFooter>
+                    <Button><Link target="_blank" href={`https://wizz.cash/dmint/${name.toLowerCase()}`}>Show on Wizz</Link></Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            </>
+          );
+        })}
+      </CarouselContent>
+      <CarouselPrevious />
+      <CarouselNext />
+    </Carousel>
   )
 }
