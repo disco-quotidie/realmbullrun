@@ -329,7 +329,7 @@ export const WalletConnect = () => {
           )}
 
           <MenubarSeparator />
-          <div className="w-full flex content-center items-center justify-between hidden">
+          <div className="w-full content-center items-center justify-between hidden">
             {network === 'bitcoin' ?
               <BitcoinIcon /> : <RepairIcon />
             }

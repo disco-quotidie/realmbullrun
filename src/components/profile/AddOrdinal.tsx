@@ -28,7 +28,8 @@ export default function AddOrdinal ({ onSet = () => {} }: { onSet?: Function }) 
           <DialogHeader>
             <DialogTitle>Type in your Ordinal number or ID to set it as your PFP</DialogTitle>
             <DialogDescription>
-              <Image loader={() => imageUri} src={imageUri} height={320} width={320} alt="Input your Ordinal Number/ID" className="h-80 w-80 image-pixel my-4" />
+              {/* <Image loader={() => imageUri} src={imageUri} height={320} width={320} alt="Input your Ordinal Number/ID" className="h-80 w-80 image-pixel my-4" /> */}
+              <iframe src={imageUri} />
               <Input 
                 placeholder="Type in your Ordinal number or ID to set it as your PFP"
                 value={ordinalRef}
