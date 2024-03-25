@@ -32,8 +32,8 @@ export const Header = () => {
       href: "/profil"
     },
     {
-      text: "Whitelist",
-      href: "/whitelist"
+      text: "Collection",
+      href: "/collection"
     }
   ]
 
