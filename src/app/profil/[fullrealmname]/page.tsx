@@ -65,6 +65,7 @@ const Profile = ({ params }: { params: { fullrealmname: string } }) => {
           let atomicalsArray: any[] = []
           const atomicalIds = Object.keys(atomicals)
           atomicalIds.map((id: string) => atomicalsArray.push(atomicals[id]))
+          console.log(atomicalsArray)
           setProfileOwnerAtomicals(atomicalsArray)
         }
       }
@@ -93,14 +94,11 @@ const Profile = ({ params }: { params: { fullrealmname: string } }) => {
           <Tabs defaultValue="overview" className="space-y-4">
             <TabsList>
               <TabsTrigger value="overview">Profile</TabsTrigger>
-              <TabsTrigger value="analytics" disabled>
+              <TabsTrigger value="analytics">
                 Bitwork Lab
               </TabsTrigger>
               <TabsTrigger value="reports" disabled>
                 Subrealms
-              </TabsTrigger>
-              <TabsTrigger value="atomicals">
-                AtomicalsRaw
               </TabsTrigger>
             </TabsList>
             <TabsContent value="overview" className="space-y-4 border-2 p-4 bg-[rgba(117,141,179,0.31)]">
@@ -233,7 +231,7 @@ const Profile = ({ params }: { params: { fullrealmname: string } }) => {
                 )
               }
             </TabsContent>
-            <TabsContent value="atomicals" className="space-y-4 border-2 p-4 bg-[rgba(117,141,179,0.31)]">
+            <TabsContent value="analytics" className="space-y-4 border-2 p-4 bg-[rgba(117,141,179,0.31)]">
               {
                 profileOwnerAtomicals.map((elem: any) => (
                   <div key={elem.atomical_id} className="mb-20 break-words">

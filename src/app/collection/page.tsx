@@ -7,6 +7,7 @@ import getAtomicalsFromAddress from "@/lib/get-atomicals-from-address"
 import { AppContext } from "@/providers/AppContextProvider"
 import getDataByPage from "@/lib/get-data-by-page"
 import { RealmCard } from "@/components/profile/RealmCard"
+import { NftPreviewCard } from "@/components/profile/NftPreviewCard"
 
 export default function Collection() {
 
@@ -202,7 +203,7 @@ export default function Collection() {
       <div className="mx-4 mt-4 grid grid-cols-2 lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 gap-4">
         {
           data && data.filter((elem: any) => elem.title.indexOf(searchStr) > -1).map((elem: any) => (
-            <RealmCard key={elem.atomical_id} links={elem.links} imageData={elem.image} subrealmName={elem.subrealm} atomicalId={elem.atomical_id} />
+            <NftPreviewCard key={elem.id} imageData={elem.image} number={elem.id} />
           ))
         }
       </div>

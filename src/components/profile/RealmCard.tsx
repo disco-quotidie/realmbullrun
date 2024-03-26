@@ -8,10 +8,8 @@ import { ImageFromData } from "@/components/common/ImageFromData";
 import { DynamicIcon } from "./DynamicIcon";
 import Link from "next/link";
 
-export const RealmCard = ({ atomicalId, links, subrealmName, imageData }: { atomicalId?: string, links?: any, subrealmName?: string, imageData: string }) => {
+export const RealmCard = ({ atomicalId, atomical_number = '??????', links, subrealmName, imageData }: { atomicalId?: string, atomical_number?: string, links?: any, subrealmName?: string, imageData: string }) => {
     const { tlr } = useContext(AppContext)
-
-    const atomicalsNumber = 200000; // to be changed for line 26
 
     return atomicalId?.startsWith('fake-skeleton') ? (
         <Skeleton className="h-[176px] w-full " />
@@ -23,7 +21,7 @@ export const RealmCard = ({ atomicalId, links, subrealmName, imageData }: { atom
                     <CardTitle className="text-xl">
                         <a href={`/profil/${subrealmName}`} target="_blank">{subrealmName}</a>
                     </CardTitle>
-                    <div className="text-sm text-slate-400">#{atomicalsNumber.toLocaleString('en')}</div>
+                    <div className="text-sm text-slate-400">#{atomical_number}</div>
                 </div>
             </CardHeader>
             <CardFooter className="p-2 gap-4 ">
