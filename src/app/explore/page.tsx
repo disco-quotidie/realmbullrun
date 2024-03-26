@@ -77,7 +77,7 @@ export default function Explore() {
           ) : (<></>)
         }
       </div>
-      <div className="mx-4 mt-4 grid grid-cols-2 lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 gap-4">
+      <div className="mt-4 p-4 grid new-feed-cols justify-stretch justify-items-stretch gap-[.45rem] w-full">
         {
           items && items.filter((elem: any) => (elem.atomical_id.startsWith("fake-skeleton") || elem.subrealm.indexOf(searchStr) > -1)).map((elem: any) => (
             <RealmCard key={elem.atomical_id} links={elem.links} imageData={elem.image} subrealmName={elem.subrealm} atomicalId={elem.atomical_id} />

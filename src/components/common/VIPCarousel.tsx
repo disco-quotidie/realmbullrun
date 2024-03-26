@@ -8,8 +8,9 @@ import {
 
 import Autoplay from "embla-carousel-autoplay"
 import VIPDummyCard from "./VIPDummyCard"
+import { Card } from "../ui/card"
 
-export default function VIPCaurosel ({ data }: { data: any[] }) {
+export default function VIPCaurosel({ data }: { data: any[] }) {
 
   const dummyData = [
     {
@@ -40,7 +41,7 @@ export default function VIPCaurosel ({ data }: { data: any[] }) {
 
   return (
     <div className="mx-16 mt-4">
-      <Carousel 
+      <Carousel
         plugins={[
           Autoplay({
             delay: 3000
@@ -53,8 +54,10 @@ export default function VIPCaurosel ({ data }: { data: any[] }) {
             // data.map((vipItem: any, index: any) => (
             dummyData.map((dummyItem: any, index: any) => (
               <CarouselItem className="lg:basis-1/5 md:basis-1/3 sm:basis-1/3 basis-full" key={index}>
-                {/* <VIPCard data={vipItem} /> */}
-                <VIPDummyCard data={dummyItem} />
+                <Card className="p-2">
+                  <VIPDummyCard data={dummyItem} />
+                  {/* <VIPCard data={vipItem} /> */}
+                </Card>
               </CarouselItem>
             ))
           }
