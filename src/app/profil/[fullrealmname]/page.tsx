@@ -235,7 +235,15 @@ const Profile = ({ params }: { params: { fullrealmname: string } }) => {
               {
                 profileOwnerAtomicals.map((elem: any) => (
                   <div key={elem.atomical_id} className="mb-20 break-words">
-                    {JSON.stringify(elem)}
+                    <div>
+                      type: {elem.type}
+                    </div>
+                    <div>
+                      subtype: {elem.subtype}
+                    </div>
+                    <div>
+                      bitworkc: {elem.data?.$bitwork?.bitworkc}
+                    </div>
                   </div>
                 ))
               }
