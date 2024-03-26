@@ -1,16 +1,23 @@
 "use client"
 import { Button } from "@/components/ui/button"
 import { WalletContext } from "@/providers/WalletContextProvider"
-import { useContext, useEffect, useState } from "react"
+import { useCallback, useContext, useEffect, useRef, useState } from "react"
 
 import getAtomicalsFromAddress from "@/lib/get-atomicals-from-address"
 import { AppContext } from "@/providers/AppContextProvider"
+import getDataByPage from "@/lib/get-data-by-page"
+import { RealmCard } from "@/components/profile/RealmCard"
 
-export default function Whitelist() {
+export default function Collection() {
 
   const { tlr, showError } = useContext(AppContext)
   const [status, setStatus] = useState("loading")
   const [subrealmList, setSubrealmList] = useState<any[]>()
+  const divRef = useRef<any>()
+  const [page, setPage] = useState(0)
+  const [isLoading, setIsLoading] = useState(false)
+  const [data, setData] = useState<any>([])
+  const [searchStr, setSearchStr] = useState("")
 
   const originalMessage = "In order to prove you are the owner of this realm and whitelisted, you should sign this message. No sats are being charged, no transactions are broadcast."
   const { walletData } = useContext(WalletContext)
@@ -43,6 +50,14 @@ export default function Whitelist() {
         setStatus('found')
     }
 
+    const firstPageFetch = async () => {
+      setIsLoading(true)
+      const initialData = await getDataByPage(0)
+      setData(initialData)
+      setIsLoading(false)
+    }
+
+    firstPageFetch()
     if (walletData.connected) {
       firstFetch()
     }
@@ -52,6 +67,29 @@ export default function Whitelist() {
     if (!walletData.connected)
       setStatus("no-wallet")
   }, [walletData.connected])
+
+  useEffect(() => {
+    console.log(data)
+  }, [data])
+
+  const onScroll = useCallback(async () => {
+    if (window.innerHeight + window.scrollY >= divRef.current.offsetHeight && ! isLoading) {
+      await loadMoreData();
+    }
+  }, [isLoading, page])
+
+  useEffect(() => {
+    window.addEventListener('scroll', onScroll)
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [onScroll])
+
+  const loadMoreData = async () => {
+    setIsLoading(true)
+    const moreData = await getDataByPage(page + 1)
+    setData((currentData: any[]) => [...currentData, ...moreData])
+    setPage(page + 1)
+    setIsLoading(false)
+  }
 
   const submit = async (atomicalId: string, full_realm_name: string) => {
     let item = ''
@@ -115,29 +153,8 @@ export default function Whitelist() {
     // }
   }
 
-  if (status === "loading")
-    return (
-      <div className="lg:mx-auto lg:w-6/12 mx-8 text-center">
-        locating subrealms...
-      </div>
-    )
-
-  if (status === "no-wallet") 
-    return (
-      <div className="lg:mx-auto lg:w-6/12 mx-8 text-center">
-        Please connect your wallet to continue...
-      </div>
-    )
-
-  if (status === "no-atomicals")
-    return (
-      <div className="lg:mx-auto lg:w-6/12 mx-8 text-center">
-        No +{tlr} subrealms in this wallet... Mint your subrealm first.
-      </div>
-    )
-  
-  return (
-    <div className="lg:mx-auto lg:w-6/12 mx-8 text-center">
+  let whitelistDOM = (
+    <>
       <div className="mt-4">
         You are whitelisted !
       </div>
@@ -148,6 +165,44 @@ export default function Whitelist() {
         {
           subrealmList?.map((elem: any) => (
             <Button className="text-wrap mb-4 py-2 h-auto" key={elem.atomicalId} onClick={() => submit(elem.atomicalId, elem.full_realm_name)}>+{elem.full_realm_name}</Button>
+          ))
+        }
+      </div>
+    </>
+  )
+
+  if (status === "loading")
+    whitelistDOM = (
+      <div className="lg:mx-auto lg:w-6/12 mx-8 text-center">
+        locating subrealms...
+      </div>
+    )
+
+  if (status === "no-wallet") 
+    whitelistDOM = (
+      <div className="lg:mx-auto lg:w-6/12 mx-8 text-center">
+        Please connect your wallet to continue...
+      </div>
+    )
+
+  if (status === "no-atomicals")
+    whitelistDOM = (
+      <div className="lg:mx-auto lg:w-6/12 mx-8 text-center">
+        No +{tlr} subrealms in this wallet... Mint your subrealm first.
+      </div>
+    )
+  
+  return (
+    <div 
+      // className="lg:mx-auto lg:w-6/12 mx-8 text-center" 
+      ref={divRef}>
+      
+      {whitelistDOM}
+
+      <div className="mx-4 mt-4 grid grid-cols-2 lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 gap-4">
+        {
+          data && data.filter((elem: any) => elem.title.indexOf(searchStr) > -1).map((elem: any) => (
+            <RealmCard key={elem.atomical_id} links={elem.links} imageData={elem.image} subrealmName={elem.subrealm} atomicalId={elem.atomical_id} />
           ))
         }
       </div>
